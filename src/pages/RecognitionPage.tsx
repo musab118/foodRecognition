@@ -25,7 +25,7 @@ const RecognitionPage = () => {
 
 
   const detectFood = () => {
-    app.models.predict('bd367be194cf45149e75f01d59f77ba7',"https://image.shutterstock.com/image-photo/banana-cluster-isolated-260nw-575528746.jpg")
+    app.models.predict('bd367be194cf45149e75f01d59f77ba7',`${input}`)
     .then(function(response){
       const foodItem = response.outputs[0].data.concepts[0].name
       setFood(foodItem)
@@ -35,10 +35,9 @@ const RecognitionPage = () => {
     
   }
 
-  const getNutrition = async (foodItem) => {
-  // const food = foodItem.replace(" ","%20")
-  const response = await fetch(`https://api.edamam.com/api/food-database/v2/parser?ingr=banana&app_id=e75ca3e9&app_key=9a8348e3f7d308a09160e67f5b92094e`)
-
+  const getNutrition = async () => {
+  const foodChoice = String(food.replace(" ","%20"))
+  const response = await fetch(`https://api.edamam.com/api/food-database/v2/parser?ingr=${foodChoice}&app_id=e75ca3e9&app_key=9a8348e3f7d308a09160e67f5b92094e`)
   const responseJSON =  await response.json()
   const Kcal = responseJSON.parsed[0].food.nutrients.ENERC_KCAL
   setCalories(Kcal)
@@ -56,12 +55,12 @@ const RecognitionPage = () => {
       <div className="welcomecontainer">
         <h1>See-Food</h1>
         <p>Please paste any food image link below</p>
-        <input onChange={onInputChange} className="forminput" type='text'/>
+        <input onChange={onInputChange} className="forminput" type='text' placeholder="paste link"/>
         <br/>
         <br/>
         <button className="btn" onClick={detectFood}>Analyze Food</button> 
-        <button className = "btn" onClick={getNutrition}>Get Banana Information</button>
-
+        <button className = "btn" onClick={getNutrition}>Get Nutritional Information</button>
+        <h2>Is this a {food} ?</h2>
         <h2>Calories: {calories}</h2> 
         <h2>Fat: {fat} grams</h2>
         <h2>Carbs: {carbs} grams</h2>
