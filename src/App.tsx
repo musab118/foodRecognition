@@ -5,9 +5,27 @@ import RecognitionPage from './pages/RecognitionPage'
 
 
 function App() {
+
+  const toggleDarkMode = () => {
+
+    const element = document.body
+    element.classList.toggle("dark-mode")
+
+  }
+
   return (
+    
     <Router>
-  
+      <div className = "darkmodecontainer"> 
+      <label className="switch">
+        <input type="checkbox" onChange={toggleDarkMode}/> 
+        <span className="slider round"> </span>
+      </label>
+
+      </div> 
+
+
+
       <Route path='/' component={WelcomeScreen} exact/>
       <Route path='/app' component={RecognitionPage} exact/>
 

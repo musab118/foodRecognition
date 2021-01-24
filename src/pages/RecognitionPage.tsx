@@ -1,6 +1,11 @@
 import React, { useState } from "react";
 import Clarifai, {  } from "clarifai";
+import dotenv from 'dotenv'
 
+//Environmental variables declaration 
+dotenv.config({path: '../../.env'})
+
+const key = process.env.CLARIFAI_API
 
 const RecognitionPage = () => {
 
@@ -14,7 +19,8 @@ const RecognitionPage = () => {
   const [protein, setProtein] = useState( ' ' )
 
   const app = new Clarifai.App({
-    apiKey: "e11a6cf77ae14b599eef0f11c5bd91e2",
+    apiKey: 'e11a6cf77ae14b599eef0f11c5bd91e2'
+    
   });
   
   const onInputChange = (event) => {
@@ -35,9 +41,10 @@ const RecognitionPage = () => {
     
   }
 
+  
   const getNutrition = async () => {
   const foodChoice = String(food.replace(" ","%20"))
-  const response = await fetch(`https://api.edamam.com/api/food-database/v2/parser?ingr=${foodChoice}&app_id=e75ca3e9&app_key=9a8348e3f7d308a09160e67f5b92094e`)
+  const response = await fetch(`https://api.edamam.com/api/food-database/v2/parser?ingr=${foodChoice}&app_id=e75ca3e9&app_key=${process.env.EDAMAME_API}`)
   const responseJSON =  await response.json()
   const Kcal = responseJSON.parsed[0].food.nutrients.ENERC_KCAL
   setCalories(Kcal)
@@ -54,12 +61,15 @@ const RecognitionPage = () => {
     <div>
       <div className="welcomecontainer">
         <h1>See-Food</h1>
-        <p>Please paste any food image link below</p>
+        <p>Please paste any food image link below{key}</p>
         <input onChange={onInputChange} className="forminput" type='text' placeholder="paste link"/>
         <br/>
         <br/>
         <button className="btn" onClick={detectFood}>Analyze Food</button> 
         <button className = "btn" onClick={getNutrition}>Get Nutritional Information</button>
+    
+
+
         <h2>Is this a {food} ?</h2>
         <h2>Calories: {calories}</h2> 
         <h2>Fat: {fat} grams</h2>
