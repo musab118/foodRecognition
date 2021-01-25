@@ -9,7 +9,7 @@ const key = process.env.CLARIFAI_API
 
 const RecognitionPage = () => {
 
-  const [imageURL, setImageURL] = useState([]);
+  const [imageURL, setImageURL] = useState('');
   const [input, setInput] = useState([])
   const [food, setFood] = useState(' ')
   const [calories, setCalories] = useState( ' ' )
@@ -20,12 +20,13 @@ const RecognitionPage = () => {
 
   const app = new Clarifai.App({
     apiKey: 'e11a6cf77ae14b599eef0f11c5bd91e2'
-    
+     
   });
   
   const onInputChange = (event) => {
     console.log(event.target.value)
     setInput(event.target.value)
+    setImageURL(event.target.value)
  
   }
 
@@ -44,7 +45,7 @@ const RecognitionPage = () => {
   
   const getNutrition = async () => {
   const foodChoice = String(food.replace(" ","%20"))
-  const response = await fetch(`https://api.edamam.com/api/food-database/v2/parser?ingr=${foodChoice}&app_id=e75ca3e9&app_key=${process.env.EDAMAME_API}`)
+  const response = await fetch(`https://api.edamam.com/api/food-database/v2/parser?ingr=${foodChoice}&app_id=e75ca3e9&app_key=9a8348e3f7d308a09160e67f5b92094e`)
   const responseJSON =  await response.json()
   const Kcal = responseJSON.parsed[0].food.nutrients.ENERC_KCAL
   setCalories(Kcal)
@@ -64,6 +65,8 @@ const RecognitionPage = () => {
         <p>Please paste any food image link below{key}</p>
         <input onChange={onInputChange} className="forminput" type='text' placeholder="paste link"/>
         <br/>
+        <br/>
+        <img src={imageURL} alt="" width="500px"/>
         <br/>
         <button className="btn" onClick={detectFood}>Analyze Food</button> 
         <button className = "btn" onClick={getNutrition}>Get Nutritional Information</button>
