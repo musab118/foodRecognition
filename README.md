@@ -1,4 +1,4 @@
 Live app: https://seefoodapp.netlify.app/
 
-clone repo and install dependancies using npm or yarn 
-start the server using yarn start or npm start
+1. clone repo and install dependancies using npm or yarn 
+2. start the server using yarn start or npm start
